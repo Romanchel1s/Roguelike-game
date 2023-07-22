@@ -8,7 +8,15 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake")
 find_package(BearLibTerminal REQUIRED)
 include_directories(SYSTEM ${BLT_INCLUDE_DIRS})
 
-add_executable(untitled main.cpp)
+set(PROJECT_HEADERS_DIR ${PROJECT_SOURCE_DIR}/include)
+set(PROJECT_SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
+
+file(GLOB_RECURSE HEADERS ${PROJECT_HEADERS_DIR}/*.h)
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCES_DIR}/*.cpp)
+
+add_executable(untitled ${HEADERS} ${SOURCES})
+
+include_directories(${PROJECT_HEADERS_DIR})
 
 target_link_libraries(${PROJECT_NAME} ${BLT_LIBRARIES})
 
