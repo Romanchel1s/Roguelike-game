@@ -2,25 +2,30 @@
 // Created by rpurt on 22.07.2023.
 //
 
-#ifndef UNTITLED_PLAYER_H
-#define UNTITLED_PLAYER_H
+#ifndef INCLUDE_PLAYER_H_
+#define INCLUDE_PLAYER_H_
 
-#include "controls.h"
+#include "../include/controls.h"
 
-class Player{
-    char symbol = '@';
-    int x_;
-    int y_;
-    Controls &controls;
+class Player {
+  char symbol = '@';
+  int x_;
+  int y_;
+  int stepcounter = 0;
+  const Controls &controls;
 
-    void Render();
+  void Render();
 
-    void Move();
-public:
-    Player(char symbol, int x, int y, Controls &controls) : symbol(symbol), x_(x), y_(y), controls(controls) {}
+  void Move();
 
-    void Update();
+  void StepCount();
+
+ public:
+  Player(char symbol, int x, int y, const Controls &controls) : symbol(symbol), x_(x), y_(y), controls(controls) {}
+
+  void Update();
+  int GetX() const;
+  int GetY() const;
 };
 
-
-#endif //UNTITLED_PLAYER_H
+#endif  // INCLUDE_PLAYER_H_

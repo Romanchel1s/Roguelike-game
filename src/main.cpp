@@ -1,30 +1,34 @@
-#include <vector>
 #include <BearLibTerminal.h>
+
 #include <cmath>
 #include <iostream>
+#include <vector>
 
-#include "controls.h"
-#include "player.h"
+#include "../include/controls.h"
+#include "../include/player.h"
+#include "../include/coin-manager.h"
 
-int main(){
-    terminal_open();
-    terminal_refresh();
+int main() {
+  terminal_open();
+  terminal_refresh();
 
-    Controls controls;
-    Player player{'@',1,1,controls};
+  Controls controls;
+  Player player{'@', 1, 1, controls};
+  CoinsManager cm(player);
 
-    while (true){
-        terminal_clear();
+  while (true) {
+    terminal_clear();
 
-        controls.Update();
-        if (controls.IsExit()) {
-            break;
-        }
-
-        player.Update();
-
-        terminal_refresh();
+    controls.Update();
+    if (controls.IsExit()) {
+      break;
     }
 
-    terminal_close();
+    cm.Update();
+    player.Update();
+
+    terminal_refresh();
+  }
+
+  terminal_close();
 }

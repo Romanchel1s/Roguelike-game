@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(untitled)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Werror -Wextra -Wzero-as-null-pointer-constant -Winit-self -Wswitch-default -Wfloat-equal -Wno-unused-parameter -fPIC -march=native")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake")
 
@@ -22,3 +23,6 @@ target_link_libraries(${PROJECT_NAME} ${BLT_LIBRARIES})
 
 file(COPY ${BLT_LIBRARY} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+include(CppLint)
+ADD_STYLE_CHECK_TARGET(lint ${PROJECT_NAME} ${PROJECT_HEADERS_DIR} ${PROJECT_SOURCES_DIR})
+add_dependencies(${PROJECT_NAME} lint)
