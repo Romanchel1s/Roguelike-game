@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 
-#include "../include/controls.h"
-#include "../include/player.h"
 #include "../include/coin-manager.h"
+#include "../include/controls.h"
+#include "../include/food-manager.h"
+#include "../include/player.h"
 
 int main() {
   terminal_open();
@@ -15,6 +16,7 @@ int main() {
   Controls controls;
   Player player{'@', 1, 1, controls};
   CoinsManager cm(player);
+  FoodManager  fm(player, controls);
 
   while (true) {
     terminal_clear();
@@ -23,10 +25,9 @@ int main() {
     if (controls.IsExit()) {
       break;
     }
-
     cm.Update();
     player.Update();
-
+    fm.Update();
     terminal_refresh();
   }
 
