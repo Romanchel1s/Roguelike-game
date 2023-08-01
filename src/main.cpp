@@ -25,6 +25,11 @@ int main() {
     if (controls.IsExit()) {
       break;
     }
+    if (fm.DeathFromHungry()) {
+      terminal_print(34, 10, "GAME OVER");
+      terminal_refresh();
+      continue;
+    }
     cm.Update();
     player.Update();
     fm.Update();
