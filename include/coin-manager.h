@@ -8,12 +8,10 @@
 class CoinsManager {
   const Player &player_;
   int coincount = 0;
-  std::vector<Coin> coins{
-      {30, 20}, {55, 15}, {70, 18}};
+  std::vector<Coin> coins;
 
  public:
-  explicit CoinsManager(const Player &player): player_(player) {}
-
+  explicit CoinsManager(const Player &player, const std::vector<Coin> &coins) : player_(player), coins(coins) {}
   void Update();
 };
 

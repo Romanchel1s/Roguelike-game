@@ -46,3 +46,4 @@ bool Controls::IsMovingUp() const {
 bool Controls::IsExit() const {
   return is_exit_;
 }
+

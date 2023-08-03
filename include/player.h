@@ -12,7 +12,7 @@ class Player {
   int x_;
   int y_;
   int stepcounter = 0;
-  const Controls &controls;
+  const Controls& controls;
 
   void Render();
 
@@ -26,6 +26,7 @@ class Player {
   void Update();
   int GetX() const;
   int GetY() const;
+  void GetBack();
 };
 
 #endif  // INCLUDE_PLAYER_H_
