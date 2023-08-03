@@ -8,12 +8,13 @@
 
 class FoodManager {
   const Player &player_;
-  int hunger = 20;
+  int hunger = 50;
   const Controls &controls;
-  std::vector<Food> food{{20, 15}, {30, 15}, {20, 40}};
+  std::vector<Food> food;
 
  public:
-  explicit FoodManager(const Player &player, const Controls &controls) : player_(player), controls(controls) {}
+  explicit FoodManager(const Player &player, const Controls &controls, const std::vector<Food> &food)
+      : player_(player), controls(controls), food(food) {}
 
   bool DeathFromHungry();
   void GetHungry();

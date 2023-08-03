@@ -40,4 +40,22 @@ int Player::GetX() const {
 int Player::GetY() const {
   return y_;
 }
+void Player::GetBack() {
+  if (controls.IsMovingDown()) {
+    y_ -= 1;
+    stepcounter -=1;
+  }
+  if (controls.IsMovingUp()) {
+    y_ += 1;
+    stepcounter -=1;
+  }
+  if (controls.IsMovingLeft()) {
+    x_ += 1;
+    stepcounter -=1;
+  }
+  if (controls.IsMovingRight()) {
+    x_ -= 1;
+    stepcounter -=1;
+  }
+}
 
