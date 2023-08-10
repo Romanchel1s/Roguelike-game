@@ -1,6 +1,6 @@
 #ifndef INCLUDE_LEVEL1_H_
 #define INCLUDE_LEVEL1_H_
-
+#include <vector>
 #include "../include/coin-manager.h"
 #include "../include/controls.h"
 #include "../include/food-manager.h"
@@ -8,7 +8,6 @@
 #include "../include/wall-manager.h"
 #include "../include/ireader.h"
 #include "../include/config.h"
-#include <vector>
 
 class FirstLevel : public IReader {
   std::vector<Wall> walls;

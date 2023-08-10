@@ -1,9 +1,9 @@
 #include <BearLibTerminal.h>
-#include "../include/ld-manager.h"
-#include "../src/luckydoor.cpp"
-#include "vector"
+#include <vector>
 #include <thread>
 #include <chrono>
+#include "../include/ld-manager.h"
+
 
 bool LDManager::DeathFromUnLucky() {
   if (death) {

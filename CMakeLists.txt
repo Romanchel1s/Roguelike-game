@@ -15,7 +15,7 @@ set(PROJECT_SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 file(GLOB_RECURSE HEADERS ${PROJECT_HEADERS_DIR}/*.h)
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCES_DIR}/*.cpp)
 
-add_executable(untitled ${HEADERS} ${SOURCES})
+add_executable(untitled ${HEADERS} ${SOURCES} )
 
 include_directories(${PROJECT_HEADERS_DIR})
 

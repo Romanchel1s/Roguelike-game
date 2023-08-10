@@ -1,5 +1,5 @@
 #include "../include/config.h"
-
+#include <vector>
 std::vector<Coin> Config::CoinsConfig() {
   return coins;
 }
