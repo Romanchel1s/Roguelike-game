@@ -3,24 +3,23 @@
 //
 
 #include "rog/systems/game_over_system.h"
+
 #include <lib/ecs/entity.h>
 #include <lib/ecs/entity_manager.h>
-#include <rog/components/collider_component.h>
+#include <rog/components/control_component.h>
 #include <rog/components/obstacle_component.h>
-#include <rog/components/player_control_component.h>
 
 static bool Filter(const Entity& entity) {
-  return entity.Contains<ColliderComponent>() && entity.Contains<PlayerControlComponent>();
+  return false;  // entity.Contains<ColliderComponent>() && entity.Contains<PlayerControlComponent>();
 }
 
 static bool IsGameOver(const Entity& entity) {
-  auto cc = entity.Get<ColliderComponent>();
+  // auto cc = entity.Get<ColliderComponent>();
 
-  for (const auto& collision : cc->GetCollisions()) {
-    if (collision->Contains<ObstacleComponent>()) {
-      return true;
-    }
-  }
+  // for (const auto& collision : cc->GetCollisions()) {
+  //  if (collision->Contains<ObstacleComponent>()) {
+  //    return true;
+  //  }
 
   return false;
 }

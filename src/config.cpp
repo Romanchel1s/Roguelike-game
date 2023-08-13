@@ -1,11 +1,11 @@
 #include "../include/config.h"
 #include <vector>
-std::vector<Coin> Config::CoinsConfig() {
+std::vector<Vec2> Config::CoinsConfig() {
   return coins;
 }
-std::vector<Food> Config::FoodConfig() {
+std::vector<Vec2> Config::FoodConfig() {
   return food;
 }
-std::vector<Wall> Config::WallsConfig() {
+std::vector<Vec2> Config::WallsConfig() {
   return walls;
 }

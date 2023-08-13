@@ -4,6 +4,7 @@
 #include "lib/scenes/scene_manager.h"
 #include "rog/scenes/game_over_scene.h"
 #include "rog/scenes/title_scene.h"
+#include "rog/scenes/win_scene.h"
 
 int main() {
   terminal_open();
@@ -19,6 +20,7 @@ int main() {
   sm.Put("title", new TitleScene(&ctx, controls));
   sm.Put("game", new GameScene(&ctx, controls));
   sm.Put("game_over", new GameOverScene(&ctx, controls));
+  sm.Put("win", new WinScene(&ctx, controls));
 
   // Выставляем текущую сцену
   ctx.scene_ = "title";

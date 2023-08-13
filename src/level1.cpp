@@ -15,15 +15,15 @@ Config FirstLevel::ReadLevel() {
     while (getline(in, line)) {
       for (char a : line) {
         if (a == '#') {
-          Wall wall{j, n};
+          Vec2 wall{j, n};
           walls.push_back(wall);
         }
         if (a == '$') {
-          Coin coin{j, n};
+          Vec2 coin{j, n};
           coins.push_back(coin);
         }
         if (a == '%') {
-          Food feed{j, n};
+          Vec2 feed{j, n};
           food.push_back(feed);
         }
         j++;

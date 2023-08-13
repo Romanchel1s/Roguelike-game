@@ -2,25 +2,22 @@
 #define INCLUDE_CONFIG_H_
 
 #include <vector>
-#include "../include/coin-manager.h"
-#include "../include/food-manager.h"
-#include "../include/player.h"
-#include "../include/wall-manager.h"
+#include "lib/math/vec2.h"
 class Config {
-  std::vector<Wall> walls;
-  std::vector<Coin> coins;
-  std::vector<Food> food;
+  std::vector<Vec2> walls;
+  std::vector<Vec2> coins;
+  std::vector<Vec2> food;
 
  public:
   int x;
   int y;
 
-  Config(std::vector<Wall> walls, std::vector<Coin> coins, std::vector<Food> food)
+  Config(std::vector<Vec2> walls, std::vector<Vec2> coins, std::vector<Vec2> food)
       : walls(walls), coins(coins), food(food) {}
 
-  std::vector<Wall> WallsConfig();
-  std::vector<Coin> CoinsConfig();
-  std::vector<Food> FoodConfig();
+  std::vector<Vec2> WallsConfig();
+  std::vector<Vec2> CoinsConfig();
+  std::vector<Vec2> FoodConfig();
 };
 
 #endif  // INCLUDE_CONFIG_H_
