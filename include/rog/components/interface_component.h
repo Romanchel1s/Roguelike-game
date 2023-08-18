@@ -11,10 +11,10 @@
 class InterfaceComponent : public IComponent {
  public:
   int coins = 0;
-  int hungry = 50000000;
+  int hungry = 100;
   int health = 100;
   int steps = 0;
-  int max_steps = 3000000;
+  int max_steps = 100;
   int damage = 10;
 };
 

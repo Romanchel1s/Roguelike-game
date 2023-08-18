@@ -67,6 +67,7 @@ void WallCollisionSystem::Collide(Entity* entity_1, Entity* entity_2) const {
 void WallCollisionSystem::OnUpdate() {
   // TODO: it should be smart, but I'm still using O(n^2).
   for (auto& entity_1 : GetEntityManager()) {
+    if (entity_1.Contains<InterfaceComponent>())
     for (auto& entity_2 : GetEntityManager()) {
       if (Filter(entity_2)) {
         Collide(&entity_1, &entity_2);

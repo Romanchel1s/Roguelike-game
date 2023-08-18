@@ -7,8 +7,8 @@
 
 class Vec2 {
  public:
-  float x;
-  float y;
+  int x;
+  int y;
 
   constexpr Vec2() noexcept : x(0.0f), y(0.0f) {}
   constexpr Vec2(float x, float y) noexcept : x(x), y(y) {}

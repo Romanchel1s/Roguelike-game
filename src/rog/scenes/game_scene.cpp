@@ -35,11 +35,13 @@ void GameScene::OnCreate() {
   FirstLevel fl;
   Config config = fl.ReadLevel();
   {
-    auto player = engine.GetEntityManager()->CreateEntity();
-    player->Add<TransformComponent>(0, 14);
-    player->Add<TextureComponent>('@');
-    player->Add<InterfaceComponent>();
-    player->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
+    for (Vec2& pos : config.PlayerConfig()) {
+      auto player = engine.GetEntityManager()->CreateEntity();
+      player->Add<TransformComponent>(pos.x, pos.y);
+      player->Add<TextureComponent>('@');
+      player->Add<InterfaceComponent>();
+      player->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
+    }
   }
   {
     for (Vec2& pos : config.CoinsConfig()) {
@@ -68,29 +70,33 @@ void GameScene::OnCreate() {
     }
   }
   {
-    auto enemy = engine.GetEntityManager()->CreateEntity();
-    enemy->Add<TransformComponent>(6, 6);
-    enemy->Add<TextureComponent>('E');
-    enemy->Add<ColorComponent>("red");
-    enemy->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
-    enemy->Add<EnemyFightComponent>(100, 6);
-    enemy->Add<EnemyComponent>(3, 6, 6);
+    for (Vec2& pos : config.EnemyConfig()) {
+      auto enemy = engine.GetEntityManager()->CreateEntity();
+      enemy->Add<TransformComponent>(pos.x, pos.y);
+      enemy->Add<TextureComponent>('E');
+      enemy->Add<ColorComponent>("red");
+      enemy->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
+      enemy->Add<EnemyFightComponent>(100, 6);
+      enemy->Add<EnemyComponent>(3, pos.x, pos.y);
+    }
   }
   {
-    auto door = engine.GetEntityManager()->CreateEntity();
-    door->Add<TransformComponent>(5, 5);
-    door->Add<TextureComponent>('>');
-    door->Add<DoorComponent>();
+    for (Vec2& pos : config.DoorsConfig()) {
+      auto door = engine.GetEntityManager()->CreateEntity();
+      door->Add<TransformComponent>(pos.x, pos.y);
+      door->Add<TextureComponent>('>');
+      door->Add<DoorComponent>();
+    }
   }
   auto sys = engine.GetSystemManager();
   sys->AddSystem<RenderingSystem>();
+  sys->AddSystem<EnemyMoveSystem>(controls);
   sys->AddSystem<PlayerMoveSystem>(controls);
   sys->AddSystem<CoinCollisionSystem>();
   sys->AddSystem<FoodCollisionSystem>(ctx_);
   sys->AddSystem<DoorCollisionSystem>(ctx_);
   sys->AddSystem<StepsCountSystem>(controls, ctx_);
   sys->AddSystem<GameOverSystem>(ctx_);
-  sys->AddSystem<EnemyMoveSystem>(controls);
   sys->AddSystem<FightSystem>(ctx_);
   sys->AddSystem<WallCollisionSystem>(controls);
 }

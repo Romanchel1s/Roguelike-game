@@ -6,6 +6,7 @@
 #include <rog/components/enemy_control_component.h>
 #include <rog/components/interface_component.h>
 #include <rog/components/transform_component.h>
+#include <rog/components/wall_component.h>
 
 #include <iostream>
 
@@ -35,13 +36,57 @@ void EnemyMoveSystem::EnemyMove(Entity* entity_1, Entity* entity_2) const {
   if (controls_.IsPressed(cc->up_button_) || controls_.IsPressed(cc->down_button_) ||
       controls_.IsPressed(cc->left_button_) || controls_.IsPressed(cc->right_button_)) {
     if (down_length < start_length && distance(start_x, tc2->x_, start_y, tc2->y_ + 1) <= ec->radius_) {
-      tc2->y_ += 1;
+      bool can_move = true;
+      for (auto& collide_entity : GetEntityManager()) {
+        if (collide_entity.Contains<WallComponent>()) {
+          auto tc = collide_entity.Get<TransformComponent>();
+          if (tc2->y_ + 1 == tc->y_ && tc2->x_ == tc->x_) {
+            can_move = false;
+          }
+        }
+      }
+      if (can_move) {
+        tc2->y_ += 1;
+      }
     } else if (up_length < start_length && distance(start_x, tc2->x_, start_y, tc2->y_ - 1) <= ec->radius_) {
-      tc2->y_ -= 1;
+      bool can_move = true;
+      for (auto& collide_entity : GetEntityManager()) {
+        if (collide_entity.Contains<WallComponent>()) {
+          auto tc = collide_entity.Get<TransformComponent>();
+          if (tc2->y_ - 1 == tc->y_ && tc2->x_ == tc->x_) {
+            can_move = false;
+          }
+        }
+      }
+      if (can_move) {
+        tc2->y_ -= 1;
+      }
     } else if (left_length < start_length && distance(start_x, tc2->x_ - 1, start_y, tc2->y_ + 1) <= ec->radius_) {
-      tc2->x_ -= 1;
+      bool can_move = true;
+      for (auto& collide_entity : GetEntityManager()) {
+        if (collide_entity.Contains<WallComponent>()) {
+          auto tc = collide_entity.Get<TransformComponent>();
+          if (tc2->y_  == tc->y_ && tc2->x_ - 1 == tc->x_) {
+            can_move = false;
+          }
+        }
+      }
+      if (can_move) {
+        tc2->x_ -= 1;
+      }
     } else if (right_length < start_length && distance(start_x, tc2->x_ + 1, start_y, tc2->y_ + 1) <= ec->radius_) {
-      tc2->x_ += 1;
+      bool can_move = true;
+      for (auto& collide_entity : GetEntityManager()) {
+        if (collide_entity.Contains<WallComponent>()) {
+          auto tc = collide_entity.Get<TransformComponent>();
+          if (tc2->y_  == tc->y_ && tc2->x_ + 1 == tc->x_) {
+            can_move = false;
+          }
+        }
+      }
+      if (can_move) {
+        tc2->x_ += 1;
+      }
     }
   }
 }

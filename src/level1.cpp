@@ -2,8 +2,8 @@
 
 #include <fstream>
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 Config FirstLevel::ReadLevel() {
   int n = 0;
@@ -26,13 +26,25 @@ Config FirstLevel::ReadLevel() {
           Vec2 feed{j, n};
           food.push_back(feed);
         }
+        if (a == '>') {
+          Vec2 door(j, n);
+          doors.push_back(door);
+        }
+        if (a == 'E') {
+          Vec2 E(j, n);
+          enemy.push_back(E);
+        }
+        if (a == '@') {
+          Vec2 pl(j, n);
+          player.push_back(pl);
+        }
         j++;
       }
       j = 0;
       n++;
     }
   }
-  Config config(walls, coins, food);
+  Config config(walls, coins, food, doors, enemy, player);
   in.close();  // закрываем файл
   return config;
 }

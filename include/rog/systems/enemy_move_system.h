@@ -3,6 +3,8 @@
 
 #include <lib/ecs/system.h>
 #include <rog/controls.h>
+#include <vector>
+#include "lib/math/vec2.h"
 
 class Entity;  // forward declaration because we include this class in the cpp file
 
