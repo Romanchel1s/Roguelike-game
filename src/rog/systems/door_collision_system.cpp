@@ -6,6 +6,7 @@
 #include "rog/components/interface_component.h"
 #include "rog/components/transform_component.h"
 #include "rog/components/door_component.h"
+#include "rog/components/control_component.h"
 
 static bool Filter(const Entity& entity) {
   return entity.Contains<DoorComponent>() && entity.Contains<TransformComponent>();
@@ -19,16 +20,33 @@ void DoorCollisionSystem::Collide(Entity* entity_1, Entity* entity_2) const {
   if (entity_1->Contains<InterfaceComponent>()) {
     auto tc1 = entity_1->Get<TransformComponent>();
     auto tc2 = entity_2->Get<TransformComponent>();
+    auto pcc = entity_1->Get<ControlComponent>();
+    auto dc2 = entity_2->Get<DoorComponent>();
 
     if ((tc1->x_ == tc2->x_) && (tc1->y_ == tc2->y_)) {
-      ctx_->scene_ = "win";
+      ctx_->scene_ = dc2->next_scene_;
+      if (controls_.IsPressed(pcc->up_button_)) {
+        ctx_->y_ += 13;
+        ctx_->x_ -= 1;
+      }
+      if (controls_.IsPressed(pcc->down_button_)) {
+        ctx_->y_ -= 14;
+      }
+      if (controls_.IsPressed(pcc->left_button_)) {
+        ctx_->x_ += 77;
+        ctx_->y_ -= 1;
+      }
+      if (controls_.IsPressed(pcc->right_button_)) {
+        ctx_->x_ -= 77;
+      }
     }
   }
 }
 
 DoorCollisionSystem::DoorCollisionSystem(EntityManager* const entity_manager, SystemManager* const system_manager,
-                                         Context* ctx)
-    : ISystem(entity_manager, system_manager), ctx_(ctx) {}
+                                         const Controls& controls, Context* ctx)
+    : ISystem(entity_manager, system_manager), ctx_(ctx), controls_(controls) {}
+
 void DoorCollisionSystem::OnUpdate() {
   // TODO: it should be smart, but I'm still using O(n^2).
   for (auto& entity_1 : GetEntityManager()) {

@@ -18,6 +18,8 @@ class Context {
   std::string scene_ = "";
   int coins = 0;
   int steps = 0;
+  int x_ = 5;
+  int y_ = 5;
 };
 
 #endif  // INCLUDE_LIB_SCENES_CONTEXT_H_

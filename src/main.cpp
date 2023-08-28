@@ -1,8 +1,12 @@
 #include <BearLibTerminal.h>
 #include <rog/controls.h>
-#include <rog/scenes/game_scene.h>
+#include <rog/scenes/level1_scene.h>
+
 #include "lib/scenes/scene_manager.h"
 #include "rog/scenes/game_over_scene.h"
+#include "rog/scenes/level2_scene.h"
+#include "rog/scenes/level3_scene.h"
+#include "rog/scenes/random_level_scene.h"
 #include "rog/scenes/title_scene.h"
 #include "rog/scenes/win_scene.h"
 
@@ -21,6 +25,9 @@ int main() {
   sm.Put("game", new GameScene(&ctx, controls));
   sm.Put("game_over", new GameOverScene(&ctx, controls));
   sm.Put("win", new WinScene(&ctx, controls));
+  sm.Put("level2", new SecondLevelScene(&ctx, controls));
+  sm.Put("level3", new ThirdLevelScene(&ctx, controls));
+  sm.Put("random_level", new RandomLevelScene(&ctx, controls));
 
   // Выставляем текущую сцену
   ctx.scene_ = "title";

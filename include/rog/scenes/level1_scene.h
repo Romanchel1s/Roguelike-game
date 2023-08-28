@@ -1,5 +1,5 @@
-#ifndef INCLUDE_ROG_SCENES_GAME_SCENE_H_
-#define INCLUDE_ROG_SCENES_GAME_SCENE_H_
+#ifndef INCLUDE_ROG_SCENES_LEVEL1_SCENE_H_
+#define INCLUDE_ROG_SCENES_LEVEL1_SCENE_H_
 
 #include <lib/ecs/engine.h>
 #include <lib/scenes/i_scene.h>
@@ -17,4 +17,4 @@ class GameScene : public IScene {
   void OnExit() override;
 };
 
-#endif  // INCLUDE_ROG_SCENES_GAME_SCENE_H_
+#endif  // INCLUDE_ROG_SCENES_LEVEL1_SCENE_H_

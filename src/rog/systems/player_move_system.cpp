@@ -34,6 +34,8 @@ void PlayerMoveSystem::OnUpdateEntity(Entity* entity) const {
     tc->x_ += 1;
     ic->hungry -= 1;
   }
+  ctx_->x_ = tc->x_;
+  ctx_->y_ = tc->y_;
 }
 
 void PlayerMoveSystem::OnUpdate() {
@@ -46,5 +48,5 @@ void PlayerMoveSystem::OnUpdate() {
   }
 }
 PlayerMoveSystem::PlayerMoveSystem(EntityManager* const entity_manager, SystemManager* const system_manager,
-                                   const Controls& controls)
-    : ISystem(entity_manager, system_manager), controls_(controls) {}
+                                   const Controls& controls, Context* ctx)
+    : ISystem(entity_manager, system_manager), ctx_(ctx), controls_(controls) {}

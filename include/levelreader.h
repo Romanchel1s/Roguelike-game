@@ -1,11 +1,11 @@
-#ifndef INCLUDE_LEVEL1_H_
-#define INCLUDE_LEVEL1_H_
+#ifndef INCLUDE_LEVELREADER_H_
+#define INCLUDE_LEVELREADER_H_
 #include <vector>
 #include <string>
 #include "../include/ireader.h"
 #include "../include/config.h"
 
-class FirstLevel : public IReader {
+class LevelReader : public IReader {
   std::vector<Vec2> walls;
   std::vector<Vec2> coins;
   std::vector<Vec2> food;
@@ -16,4 +16,4 @@ class FirstLevel : public IReader {
   Config ReadLevel(std::string way);
 };
 
-#endif  // INCLUDE_LEVEL1_H_
+#endif  // INCLUDE_LEVELREADER_H_

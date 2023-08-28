@@ -1,10 +1,11 @@
-#include "rog/scenes/game_scene.h"
+#include "rog/scenes/level1_scene.h"
 
 #include <rog/components/control_component.h>
 #include <rog/systems/coin_collision_system.h>
 #include <rog/systems/game_over_system.h>
 #include <rog/systems/player_move_system.h>
 
+#include <string>
 #include <vector>
 
 #include "../include/config.h"
@@ -32,25 +33,25 @@
 #include "rog/systems/wall_collision_system.h"
 
 void GameScene::OnCreate() {
+  terminal_set("0x5E: wall.png");
+  terminal_set("0x1E: coin.png");
+  terminal_set("0x7E: food.png");
   LevelReader lr;
-  Config config = lr.ReadLevel("../src/levels/level1/level1.txt");
+  Config config = lr.ReadLevel("../src/levels/level1.txt");
+  std::vector<std::string> ways = {"level3", "level2"};
   {
-    // for (Vec2& pos : config.PlayerConfig()) {
-      // ctx_->x_ = pos.x;
-      // ctx_->y_ = pos.y;
-      auto player = engine.GetEntityManager()->CreateEntity();
-      player->Add<TransformComponent>(ctx_->x_, ctx_->y_);
-      player->Add<TextureComponent>('@');
-      player->Add<InterfaceComponent>();
-      player->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
-    // }
+    auto player = engine.GetEntityManager()->CreateEntity();
+    player->Add<TransformComponent>(ctx_->x_, ctx_->y_);
+    player->Add<TextureComponent>('@');
+    player->Add<InterfaceComponent>();
+    player->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
   }
   {
     for (Vec2& pos : config.CoinsConfig()) {
       auto coin = engine.GetEntityManager()->CreateEntity();
       coin->Add<TransformComponent>(pos.x, pos.y);
-      coin->Add<TextureComponent>('$');
-      coin->Add<ColorComponent>("green");
+      coin->Add<TextureComponent>(0x1E);
+      // coin->Add<ColorComponent>("green");
       coin->Add<CoinComponent>();
     }
   }
@@ -58,7 +59,7 @@ void GameScene::OnCreate() {
     for (Vec2& pos : config.WallsConfig()) {
       auto wall = engine.GetEntityManager()->CreateEntity();
       wall->Add<TransformComponent>(pos.x, pos.y);
-      wall->Add<TextureComponent>('#');
+      wall->Add<TextureComponent>(0x5E);
       wall->Add<WallComponent>();
     }
   }
@@ -66,7 +67,7 @@ void GameScene::OnCreate() {
     for (Vec2& pos : config.FoodConfig()) {
       auto food = engine.GetEntityManager()->CreateEntity();
       food->Add<TransformComponent>(pos.x, pos.y);
-      food->Add<TextureComponent>('%');
+      food->Add<TextureComponent>(0x7E);
       food->Add<ColorComponent>("orange");
       food->Add<FoodComponent>();
     }
@@ -84,10 +85,13 @@ void GameScene::OnCreate() {
   }
   {
     for (Vec2& pos : config.DoorsConfig()) {
+      auto way = ways.back();
+      std::cout << way << std::endl;
       auto door = engine.GetEntityManager()->CreateEntity();
       door->Add<TransformComponent>(pos.x, pos.y);
       door->Add<TextureComponent>('>');
-      door->Add<DoorComponent>("level2");
+      door->Add<DoorComponent>(way);
+      ways.pop_back();
     }
   }
   auto sys = engine.GetSystemManager();
