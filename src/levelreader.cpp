@@ -5,12 +5,13 @@
 #include <string>
 #include <vector>
 
-Config FirstLevel::ReadLevel() {
+Config FirstLevel::ReadLevel(std::string way) {
   int n = 0;
   int j = 0;
+  int k = 0;
   std::string line;
   setlocale(LC_ALL, "ru");
-  std::ifstream in("../src/levels/level1.txt");  // окрываем файл для чтения
+  std::ifstream in(way);  // окрываем файл для чтения
   if (in.is_open()) {
     while (getline(in, line)) {
       for (char a : line) {
@@ -27,6 +28,13 @@ Config FirstLevel::ReadLevel() {
           food.push_back(feed);
         }
         if (a == '>') {
+          std::string level_name;
+          k++;
+          std::ifstream inlevel("../src/levels/level1/ways.txt");
+          int i = 0;
+          while (getline(inlevel, line) && i <= k) {
+            level_name = line;
+          }
           Vec2 door(j, n);
           doors.push_back(door);
         }

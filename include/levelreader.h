@@ -1,6 +1,7 @@
 #ifndef INCLUDE_LEVEL1_H_
 #define INCLUDE_LEVEL1_H_
 #include <vector>
+#include <string>
 #include "../include/ireader.h"
 #include "../include/config.h"
 
@@ -12,7 +13,7 @@ class FirstLevel : public IReader {
   std::vector<Vec2> enemy;
   std::vector<Vec2> player;
  public:
-  Config ReadLevel();
+  Config ReadLevel(std::string way);
 };
 
 #endif  // INCLUDE_LEVEL1_H_

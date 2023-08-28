@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "../include/config.h"
-#include "../include/level1.h"
+#include "../include/levelreader.h"
 #include "lib/math/vec2.h"
 #include "rog/components/coin_component.h"
 #include "rog/components/color_component.h"
@@ -32,16 +32,18 @@
 #include "rog/systems/wall_collision_system.h"
 
 void GameScene::OnCreate() {
-  FirstLevel fl;
-  Config config = fl.ReadLevel();
+  LevelReader lr;
+  Config config = lr.ReadLevel("../src/levels/level1/level1.txt");
   {
-    for (Vec2& pos : config.PlayerConfig()) {
+    // for (Vec2& pos : config.PlayerConfig()) {
+      // ctx_->x_ = pos.x;
+      // ctx_->y_ = pos.y;
       auto player = engine.GetEntityManager()->CreateEntity();
-      player->Add<TransformComponent>(pos.x, pos.y);
+      player->Add<TransformComponent>(ctx_->x_, ctx_->y_);
       player->Add<TextureComponent>('@');
       player->Add<InterfaceComponent>();
       player->Add<ControlComponent>(TK_UP, TK_DOWN, TK_LEFT, TK_RIGHT);
-    }
+    // }
   }
   {
     for (Vec2& pos : config.CoinsConfig()) {
@@ -85,16 +87,16 @@ void GameScene::OnCreate() {
       auto door = engine.GetEntityManager()->CreateEntity();
       door->Add<TransformComponent>(pos.x, pos.y);
       door->Add<TextureComponent>('>');
-      door->Add<DoorComponent>();
+      door->Add<DoorComponent>("level2");
     }
   }
   auto sys = engine.GetSystemManager();
   sys->AddSystem<RenderingSystem>();
   sys->AddSystem<EnemyMoveSystem>(controls);
-  sys->AddSystem<PlayerMoveSystem>(controls);
+  sys->AddSystem<DoorCollisionSystem>(controls, ctx_);
+  sys->AddSystem<PlayerMoveSystem>(controls, ctx_);
   sys->AddSystem<CoinCollisionSystem>();
   sys->AddSystem<FoodCollisionSystem>(ctx_);
-  sys->AddSystem<DoorCollisionSystem>(ctx_);
   sys->AddSystem<StepsCountSystem>(controls, ctx_);
   sys->AddSystem<GameOverSystem>(ctx_);
   sys->AddSystem<FightSystem>(ctx_);
