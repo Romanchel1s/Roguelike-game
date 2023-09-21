@@ -5,6 +5,7 @@
 #include "rog/components/enemy_fight_component.h"
 #include "rog/components/food_component.h"
 #include "rog/components/interface_component.h"
+#include "rog/components/key_component.h"
 #include "rog/components/transform_component.h"
 
 static bool Filter(const Entity& entity) {
@@ -33,9 +34,14 @@ void FightSystem::Collide(Entity* entity_1, Entity* entity_2) const {
         ic1->health -= efc2->damage_;
         efc2->health_ -= ic1->damage;
       }
+    } else if (entity_2->Contains<KeyComponent>()) {
+      tc2->y_ = 1000;
+      tc2->x_ = 1000;
+      ctx_->key = true;
+      ic1->key = true;
     } else {
-      tc2 ->y_ = 1000;
-      tc2 ->x_ = 1000;
+      tc2->y_ = 1000;
+      tc2->x_ = 1000;
     }
   }
 }

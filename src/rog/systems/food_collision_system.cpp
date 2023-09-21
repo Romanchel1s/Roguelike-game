@@ -30,7 +30,12 @@ void FoodCollisionSystem::Collide(Entity* entity_1, Entity* entity_2) const {
     if ((tc1->x_ == tc2->x_) && (tc1->y_ == tc2->y_)) {
       entity_2->Entity::Delete<TransformComponent>();
       ic1->hungry += 20;
-      ic1->health += 15;
+      if (ic1->health < 100) {
+        ic1->health += 15;
+        if (ic1->health > 100) {
+          ic1->health = 100;
+        }
+      }
     }
   }
 }

@@ -17,15 +17,19 @@ void StepsCountSystem::Count(Entity* entity_1) const {
     auto pcc1 = entity_1->Get<ControlComponent>();
     if (controls_.IsPressed(pcc1->up_button_)) {
       ic->steps += 1;
+      ctx_->steps +=1;
     }
     if (controls_.IsPressed(pcc1->down_button_)) {
       ic->steps += 1;
+      ctx_->steps +=1;
     }
     if (controls_.IsPressed(pcc1->left_button_)) {
       ic->steps += 1;
+      ctx_->steps +=1;
     }
     if (controls_.IsPressed(pcc1->right_button_)) {
       ic->steps += 1;
+      ctx_->steps +=1;
     }
   }
 }
@@ -37,8 +41,6 @@ void StepsCountSystem::OnUpdate() {
       if (ic->steps == ic->max_steps) {
         ctx_->scene_ = "game_over";
       }
-      ctx_->steps = ic->steps;
-      ctx_->coins = ic->coins;
       Count(&entity_1);
     }
   }

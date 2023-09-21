@@ -33,12 +33,19 @@
 #include "rog/systems/wall_collision_system.h"
 
 void GameScene::OnCreate() {
-  terminal_set("0x5E: wall.png");
-  terminal_set("0x1E: coin.png");
-  terminal_set("0x7E: food.png");
+  if (ctx_->graphics) {
+    terminal_set("0x23: wall.png");
+    terminal_set("0x24: coin.png");
+    terminal_set("0x25: food.png");
+    terminal_set("0x40: player.png");
+    terminal_set("0x45: enemy.png");
+    terminal_set("0x3E: door.png");
+    terminal_set("0x26: box.png");
+    terminal_set("0x2F: openbox.png");
+  }
   LevelReader lr;
   Config config = lr.ReadLevel("../src/levels/level1.txt");
-  std::vector<std::string> ways = {"level3", "level2"};
+  std::vector<std::string> ways = {"level2"};
   {
     auto player = engine.GetEntityManager()->CreateEntity();
     player->Add<TransformComponent>(ctx_->x_, ctx_->y_);
@@ -50,8 +57,7 @@ void GameScene::OnCreate() {
     for (Vec2& pos : config.CoinsConfig()) {
       auto coin = engine.GetEntityManager()->CreateEntity();
       coin->Add<TransformComponent>(pos.x, pos.y);
-      coin->Add<TextureComponent>(0x1E);
-      // coin->Add<ColorComponent>("green");
+      coin->Add<TextureComponent>('$');
       coin->Add<CoinComponent>();
     }
   }
@@ -59,7 +65,7 @@ void GameScene::OnCreate() {
     for (Vec2& pos : config.WallsConfig()) {
       auto wall = engine.GetEntityManager()->CreateEntity();
       wall->Add<TransformComponent>(pos.x, pos.y);
-      wall->Add<TextureComponent>(0x5E);
+      wall->Add<TextureComponent>('#');
       wall->Add<WallComponent>();
     }
   }
@@ -67,7 +73,7 @@ void GameScene::OnCreate() {
     for (Vec2& pos : config.FoodConfig()) {
       auto food = engine.GetEntityManager()->CreateEntity();
       food->Add<TransformComponent>(pos.x, pos.y);
-      food->Add<TextureComponent>(0x7E);
+      food->Add<TextureComponent>('%');
       food->Add<ColorComponent>("orange");
       food->Add<FoodComponent>();
     }
@@ -95,11 +101,11 @@ void GameScene::OnCreate() {
     }
   }
   auto sys = engine.GetSystemManager();
-  sys->AddSystem<RenderingSystem>();
+  sys->AddSystem<RenderingSystem>(ctx_);
   sys->AddSystem<EnemyMoveSystem>(controls);
   sys->AddSystem<DoorCollisionSystem>(controls, ctx_);
   sys->AddSystem<PlayerMoveSystem>(controls, ctx_);
-  sys->AddSystem<CoinCollisionSystem>();
+  sys->AddSystem<CoinCollisionSystem>(ctx_);
   sys->AddSystem<FoodCollisionSystem>(ctx_);
   sys->AddSystem<StepsCountSystem>(controls, ctx_);
   sys->AddSystem<GameOverSystem>(ctx_);

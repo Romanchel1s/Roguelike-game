@@ -35,7 +35,7 @@
 void SecondLevelScene::OnCreate() {
   LevelReader lr;
   Config config = lr.ReadLevel("../src/levels/level2.txt");
-  std::vector<std::string> ways = {"game"};
+  std::vector<std::string> ways = {"game", "level3"};
   {
     // for (Vec2& pos : config.PlayerConfig()) {
     auto player = engine.GetEntityManager()->CreateEntity();
@@ -50,7 +50,6 @@ void SecondLevelScene::OnCreate() {
       auto coin = engine.GetEntityManager()->CreateEntity();
       coin->Add<TransformComponent>(pos.x, pos.y);
       coin->Add<TextureComponent>('$');
-      coin->Add<ColorComponent>("green");
       coin->Add<CoinComponent>();
     }
   }
@@ -97,10 +96,10 @@ void SecondLevelScene::OnCreate() {
     }
   }
   auto sys = engine.GetSystemManager();
-  sys->AddSystem<RenderingSystem>();
+  sys->AddSystem<RenderingSystem>(ctx_);
   sys->AddSystem<EnemyMoveSystem>(controls);
   sys->AddSystem<PlayerMoveSystem>(controls, ctx_);
-  sys->AddSystem<CoinCollisionSystem>();
+  sys->AddSystem<CoinCollisionSystem>(ctx_);
   sys->AddSystem<FoodCollisionSystem>(ctx_);
   sys->AddSystem<DoorCollisionSystem>(controls, ctx_);
   sys->AddSystem<StepsCountSystem>(controls, ctx_);

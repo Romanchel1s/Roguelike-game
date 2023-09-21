@@ -35,7 +35,7 @@
 
 void RandomLevelScene::OnCreate() {
   LevelReader lr;
-  Config config = lr.ReadLevel("../src/levels/level2.txt");
+  Config config = lr.ReadLevel("../src/levels/level1.txt");
   std::vector<std::string> ways = {"win"};
   std::random_device random_device;         // Источник энтропии.
   std::mt19937 generator(random_device());  // Генератор случайных чисел.
@@ -122,11 +122,11 @@ void RandomLevelScene::OnCreate() {
     }
   }
   auto sys = engine.GetSystemManager();
-  sys->AddSystem<RenderingSystem>();
+  sys->AddSystem<RenderingSystem>(ctx_);
   sys->AddSystem<EnemyMoveSystem>(controls);
   sys->AddSystem<DoorCollisionSystem>(controls, ctx_);
   sys->AddSystem<PlayerMoveSystem>(controls, ctx_);
-  sys->AddSystem<CoinCollisionSystem>();
+  sys->AddSystem<CoinCollisionSystem>(ctx_);
   sys->AddSystem<FoodCollisionSystem>(ctx_);
   sys->AddSystem<StepsCountSystem>(controls, ctx_);
   sys->AddSystem<GameOverSystem>(ctx_);

@@ -7,7 +7,6 @@
 #include "rog/components/interface_component.h"
 #include "rog/components/texture_component.h"
 #include "rog/components/transform_component.h"
-#include "rog/math-utils.h"
 
 void RenderingSystem::OnUpdate() {
   terminal_bkcolor("#483D8B");
@@ -28,11 +27,16 @@ void RenderingSystem::OnUpdate() {
   for (auto& e : GetEntityManager()) {
     if (e.Contains<InterfaceComponent>()) {
       auto interface = e.Get<InterfaceComponent>();
-      terminal_printf(1, 1, "coins: %d", interface->coins);
+      terminal_printf(1, 1, "coins: %d", ctx_->coins);
       terminal_printf(1, 0, "health: %d", interface->health);
       terminal_printf(15, 0, "hungry: %d", interface->hungry);
       terminal_printf(15, 1, "steps: %d", interface->steps);
       terminal_printf(30, 0, "max steps: %d", interface->max_steps);
+      if (ctx_->key) {
+        terminal_print(30, 20, "You have the key!");
+      } else {
+        terminal_print(30, 20, "You don't have the key");
+      }
     }
   }
 }
@@ -42,5 +46,5 @@ void RenderingSystem::OnPreUpdate() {
 void RenderingSystem::OnPostUpdate() {
   terminal_refresh();
 }
-RenderingSystem::RenderingSystem(EntityManager* const entity_manager, SystemManager* const system_manager)
-    : ISystem(entity_manager, system_manager) {}
+RenderingSystem::RenderingSystem(EntityManager* const entity_manager, SystemManager* const system_manager, Context* ctx)
+    : ISystem(entity_manager, system_manager), ctx_(ctx) {}

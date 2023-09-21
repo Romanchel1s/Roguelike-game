@@ -6,13 +6,22 @@
 void GameOverScene::OnCreate() {}
 void GameOverScene::OnRender() {
   terminal_clear();
-  terminal_print(1, 1, "Game Over");
-  terminal_printf(1, 2, "collected coins: %d", ctx_->coins);
-  terminal_printf(1, 3, "steps taken: %d", ctx_->steps);
-  terminal_print(1, 4, "Press Enter to go to main menu");
+  terminal_set("0x23: none");
+  terminal_set("0x24: none");
+  terminal_set("0x25: none");
+  terminal_set("0x40: none");
+  terminal_set("0x45: none");
+  terminal_set("0x3E: none");
+  terminal_print(25, 5, "Game Over");
+  terminal_printf(25, 6, "collected coins: %d", ctx_->coins);
+  terminal_printf(25, 7, "steps taken: %d", ctx_->steps);
+  terminal_print(25, 8, "Press Enter to go to main menu");
   if (controls_.IsPressed(TK_ENTER)) {
     ctx_->scene_ = "title";  // переходим на другую сцену
   }
+  ctx_->coins = 0;
+  ctx_->steps = 0;
+  ctx_->key = false;
   terminal_refresh();
 }
 void GameOverScene::OnExit() {}

@@ -18,3 +18,6 @@ std::vector<Vec2> Config::EnemyConfig() {
 std::vector<Vec2> Config::PlayerConfig() {
   return player;
 }
+std::vector<Vec2> Config::CoinBoxConfig() {
+  return coinbox;
+}

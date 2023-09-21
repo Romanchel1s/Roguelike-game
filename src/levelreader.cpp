@@ -38,13 +38,17 @@ Config LevelReader::ReadLevel(std::string way) {
           Vec2 pl(j, n);
           player.push_back(pl);
         }
+        if (a == '&') {
+          Vec2 cbox(j, n);
+          coinbox.push_back(cbox);
+        }
         j++;
       }
       j = 0;
       n++;
     }
   }
-  Config config(walls, coins, food, doors, enemy, player);
+  Config config(walls, coins, food, doors, enemy, player, coinbox);
   in.close();  // закрываем файл
   return config;
 }

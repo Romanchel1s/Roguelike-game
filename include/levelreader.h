@@ -12,6 +12,7 @@ class LevelReader : public IReader {
   std::vector<Vec2> doors;
   std::vector<Vec2> enemy;
   std::vector<Vec2> player;
+  std::vector<Vec2> coinbox;
  public:
   Config ReadLevel(std::string way);
 };
