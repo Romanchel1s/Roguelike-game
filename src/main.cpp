@@ -1,54 +1,50 @@
 #include <BearLibTerminal.h>
+#include <rog/controls.h>
+#include <rog/scenes/level1_scene.h>
 
-#include <cmath>
-#include <iostream>
-#include <vector>
-
-#include "../include/coin-manager.h"
-#include "../include/controls.h"
-#include "../include/food-manager.h"
-#include "../include/player.h"
-#include "../include/wall-manager.h"
-#include "../include/level1.h"
-#include "../src/level1.cpp"
-#include "../include/ld-manager.h"
-#include "../src/ld-manager.cpp"
-#include "../include/config.h"
-#include "../src/config.cpp"
+#include "lib/scenes/scene_manager.h"
+#include "rog/scenes/game_over_scene.h"
+#include "rog/scenes/level2_scene.h"
+#include "rog/scenes/level3_scene.h"
+#include "rog/scenes/random_level_scene.h"
+#include "rog/scenes/title_scene.h"
+#include "rog/scenes/win_scene.h"
 
 int main() {
   terminal_open();
   terminal_refresh();
 
   Controls controls;
-  FirstLevel fl;
-  Config config = fl.ReadLevel();
-  Player player{'@', 5, 5, controls};
-  CoinsManager cm(player, config.CoinsConfig());
-  FoodManager  fm(player, controls, config.FoodConfig());
-  WallsManager wm(&player, controls, config.WallsConfig());
+
+  Context ctx{};  // создаем контекст на стеке в самом начале приложения
+  SceneManager sm(ctx);  // создаем менеджер сцен на стеке
+
+  // Регистрируем сцены в менеджер. Обратите внимание,
+  // что деструкторы над сценами вызывать здесь не надо, так как изх вызовет менеджер.
+  sm.Put("title", new TitleScene(&ctx, controls));
+  sm.Put("game", new GameScene(&ctx, controls));
+  sm.Put("game_over", new GameOverScene(&ctx, controls));
+  sm.Put("win", new WinScene(&ctx, controls));
+  sm.Put("level2", new SecondLevelScene(&ctx, controls));
+  sm.Put("level3", new ThirdLevelScene(&ctx, controls));
+  sm.Put("random_level", new RandomLevelScene(&ctx, controls));
+
+  // Выставляем текущую сцену
+  ctx.scene_ = "title";
+
+  // Ждем, пока пользователь не закроет окно
   while (true) {
-    terminal_clear();
-    controls.Update();
-    if (controls.IsExit()) {
+    controls.OnUpdate();
+    if (controls.IsPressed(TK_CLOSE)) {
       break;
     }
-    terminal_bkcolor("#483D8B");
-    if (fm.DeathFromHungry()) {
-      terminal_color("red");
-      terminal_print(34, 10, "GAME OVER");
-      terminal_refresh();
-      continue;
-    }
-    fl.ReadLevel();
-    cm.Update();
-    player.Update();
-    if (wm.Touched()) {
-      continue;
-    }
-    fm.Update();
-    terminal_refresh();
+
+    sm.OnRender();
+
+    controls.Reset();
   }
+  sm.OnExit();
 
   terminal_close();
 }
+

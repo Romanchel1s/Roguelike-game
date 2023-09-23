@@ -1,24 +1,33 @@
 #ifndef INCLUDE_CONFIG_H_
 #define INCLUDE_CONFIG_H_
 
-#include "../include/food-manager.h"
-#include "../include/coin-manager.h"
-#include "../include/wall-manager.h"
-#include "../include/player.h"
+#include <vector>
+
+#include "lib/math/vec2.h"
 class Config {
-  std::vector<Wall> walls;
-  std::vector<Coin> coins;
-  std::vector<Food> food;
+  std::vector<Vec2> walls;
+  std::vector<Vec2> coins;
+  std::vector<Vec2> food;
+  std::vector<Vec2> doors;
+  std::vector<Vec2> enemy;
+  std::vector<Vec2> player;
+  std::vector<Vec2> coinbox;
+
  public:
   int x;
   int y;
 
+  Config(std::vector<Vec2> walls, std::vector<Vec2> coins, std::vector<Vec2> food, std::vector<Vec2> doors,
+         std::vector<Vec2> enemy, std::vector<Vec2> player, std::vector<Vec2> coinbox)
+      : walls(walls), coins(coins), food(food), doors(doors), enemy(enemy), player(player), coinbox(coinbox) {}
 
-  Config(std::vector<Wall> walls, std::vector<Coin> coins,std::vector<Food> food ) : walls(walls), coins(coins), food(food) {}
-
-  std::vector<Wall> WallsConfig();
-  std::vector<Coin> CoinsConfig();
-  std::vector<Food> FoodConfig();
+  std::vector<Vec2> WallsConfig();
+  std::vector<Vec2> CoinsConfig();
+  std::vector<Vec2> FoodConfig();
+  std::vector<Vec2> DoorsConfig();
+  std::vector<Vec2> EnemyConfig();
+  std::vector<Vec2> PlayerConfig();
+  std::vector<Vec2> CoinBoxConfig();
 };
 
 #endif  // INCLUDE_CONFIG_H_
